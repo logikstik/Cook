@@ -1,0 +1,18 @@
+Options +FollowSymLinks
+Options -Indexes
+
+SetEnv HTTP_MOD_REWRITE On
+
+RewriteEngine on
+
+RewriteCond %{REQUEST_FILENAME} -s [OR]
+RewriteCond %{REQUEST_FILENAME} -l [OR]
+RewriteCond %{REQUEST_FILENAME} -d
+
+RewriteRule ^.*$ - [NC,L]
+RewriteRule ^.*$ index.php [NC,L]
+
+# Configuration PHP
+php_flag magic_quotes_gpc off
+php_flag register_globals off
+php_flag short_open_tag on
