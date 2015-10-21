@@ -17,35 +17,36 @@ class Loader
 {
 	/**
 	 * Modifie la valeur de la directive de configuration include_path
+	 * et enregistre une fonction pour inclure automatiquement 
+	 * les classes PHP dans le framework
 	 *
 	 * @return void
 	 */
 	public function __construct()
 	{
-	    set_include_path(
+		set_include_path(
 	        get_include_path() . PATH_SEPARATOR . implode(
 	            PATH_SEPARATOR,
 				array(
-					'./lib',
-					'./app'
+					$_SERVER['DOCUMENT_ROOT'] . DIRECTORY_SEPARATOR . 'lib/',
+					$_SERVER['DOCUMENT_ROOT'] . DIRECTORY_SEPARATOR . 'app/'
 				)
 	        )
 	    );
 		
-		$this->autoload();
-	}
-	
-	/**
-	 * Enregistre la fonction spl_autoload()
-	 *
-	 * @return void
-	 */	
-	private function autoload()
-	{
-		if (function_exists('__autoload')) {
-			spl_autoload_register('__autoload', false);
-		}
-
-		spl_autoload_register('spl_autoload', false);
+		spl_autoload_register(function ($class) {
+		    $namespace = null;
+			$file  = null;
+		    $class = ltrim($class, '\\');
+			
+		    if ($last = strrpos($class, '\\')) {
+		        $namespace = substr($class, 0, $last);
+		        $class = substr($class, $last + 1);
+		        $file  = str_replace('\\', DIRECTORY_SEPARATOR, $namespace) . DIRECTORY_SEPARATOR;
+		    }
+			
+		    $file .= str_replace('_', DIRECTORY_SEPARATOR, $class) . '.php';
+		    include_once $file;
+		});
 	}
 }

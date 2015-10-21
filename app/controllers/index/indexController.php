@@ -1,26 +1,42 @@
 <?php
-	
 /**
- * indexController
+ * controllers/index/indexController.php
  *
- * @author Guillaume Bouyer
- * @version 1.0.0
- * @copyright Bouyer, 19 October, 2015
- * @package indexController
+ * @package errorController
+ * @copyright 2015, Cook
  */
 
-namespace controllers\index;
+namespace Controllers\Index;
 
+/**
+ * Controller par défaut
+ *
+ * @author Guillaume Bouyer <framework_cook[@]icloud.com>
+ */
 class indexController
 {
+	/**
+	 * Action par défaut
+	 *
+	 * @return string
+	 */
 	public function indexAction()
 	{
-		echo 'indexController->indexAction';
+		echo '<h1>Framework Cook</h1>';
+		echo '<p>Bienvenue sur le framework Cook !</p>';
 	}
 	
-	public function autreAction()
+	/**
+	 * Action de test ;)
+	 *
+	 * @return string
+	 */	
+	public function testAction($params = array())
 	{
-		echo 'indexController->autreAction';
+		$name = (!isset($params)) ? $params['nom'] : 'John Doe';
+		
+		echo '<h1>Framework Cook</h1>';
+		echo '<p>Bienvenue '. $name .' sur le framework Cook !</p>';
 	}
 }
 

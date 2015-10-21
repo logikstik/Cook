@@ -1,22 +1,31 @@
 <?php
-	
 /**
- * Error
+ * controllers/error/errorController.php
  *
- * @author Guillaume Bouyer
- * @version 1.0.0
- * @copyright Bouyer, 19 October, 2015
- * @package indexController
+ * @package errorController
+ * @copyright 2015, Cook
  */
 
-namespace controllers\error;
+namespace Controllers\Error;
 
+/**
+ * Retourne une erreur selon le code erreur donné
+ *
+ * @author Guillaume Bouyer <framework_cook[@]icloud.com>
+ */
 class errorController
 {
+	/**
+	 * Retourne une erreur selon le code HEADER
+	 *
+	 * @param string $error Code erreur
+	 *
+	 * @return string
+	 */
 	public function errorAction($error = NULL)
 	{
 		if ($error == 404) {
-			echo 'Erreur 404';
+			echo '<h1>Erreur 404</h1>';
 		}
 	}
 }
