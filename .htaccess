@@ -5,8 +5,8 @@ SetEnv HTTP_MOD_REWRITE On
 
 RewriteEngine on
 
-RewriteCond %{REQUEST_FILENAME} -s [OR]
-RewriteCond %{REQUEST_FILENAME} -l [OR]
+RewriteCond %{REQUEST_FILENAME} -s
+RewriteCond %{REQUEST_FILENAME} -l
 RewriteCond %{REQUEST_FILENAME} -d
 
 RewriteRule ^.*$ - [NC,L]

@@ -29,14 +29,19 @@ class indexController
 	/**
 	 * Action de test ;)
 	 *
+	 * @param string 	$nom 	Nom de l'utilisateur
+	 * @param int		$id		ID de l'utilisateur
+	 *
 	 * @return string
 	 */	
-	public function testAction($params = array())
-	{
-		$name = (!isset($params)) ? $params['nom'] : 'John Doe';
-		
+	public function testAction($nom = 'John Doe', $id = null)
+	{		
 		echo '<h1>Framework Cook</h1>';
-		echo '<p>Bienvenue '. $name .' sur le framework Cook !</p>';
+		echo '<p>Bienvenue '. ucfirst($nom) .' sur le framework Cook !</p>';
+		
+		if ($id !== null) {
+			echo '<p>Votre ID : '. $id .'</p>';
+		}
 	}
 }
 

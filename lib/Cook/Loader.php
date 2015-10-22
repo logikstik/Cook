@@ -28,13 +28,13 @@ class Loader
 	        get_include_path() . PATH_SEPARATOR . implode(
 	            PATH_SEPARATOR,
 				array(
-					$_SERVER['DOCUMENT_ROOT'] . DIRECTORY_SEPARATOR . 'lib/',
-					$_SERVER['DOCUMENT_ROOT'] . DIRECTORY_SEPARATOR . 'app/'
+					$_SERVER['DOCUMENT_ROOT'] . DIRECTORY_SEPARATOR . 'lib',
+					$_SERVER['DOCUMENT_ROOT'] . DIRECTORY_SEPARATOR . 'app'
 				)
 	        )
 	    );
 		
-		spl_autoload_register(function ($class) {
+		spl_autoload_register(function($class) {
 		    $namespace = null;
 			$file  = null;
 		    $class = ltrim($class, '\\');
@@ -46,7 +46,16 @@ class Loader
 		    }
 			
 		    $file .= str_replace('_', DIRECTORY_SEPARATOR, $class) . '.php';
-		    include_once $file;
+			$paths = explode(PATH_SEPARATOR, get_include_path());
+			
+			foreach($paths as $path) {
+				$fullpath = $path . DIRECTORY_SEPARATOR . $file;
+				
+				if (file_exists($fullpath)) {
+					include_once $file;
+					break;
+				}
+			}
 		});
 	}
 }

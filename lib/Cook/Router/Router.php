@@ -56,7 +56,8 @@ class Router
 			$action = (!empty($uri[1])) ? $uri[1] .'Action' : $defaults['action'] .'Action';
 
 			if (method_exists($myClass, $action) && is_callable(array($myClass, $action))) {
-				$myClass->$action();
+				unset($uri[0], $uri[1]);
+				call_user_func_array(array($myClass, $action), $uri);
 			}
 			else {
 				$error = new \controllers\error\errorController();

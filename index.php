@@ -9,7 +9,7 @@ session_start();
 
 // Erreurs PHP
 error_reporting(E_ALL | E_STRICT);
-ini_set('display_errors', 'on');
+ini_set('display_errors', 'On');
 
 // Définition du fuseau horaire
 date_default_timezone_set('Europe/Paris');
