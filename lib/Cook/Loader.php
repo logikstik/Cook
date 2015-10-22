@@ -3,7 +3,7 @@
  * Loader.php
  *
  * @package Loader
- * @copyright 2015, Cook
+ * @copyright Copyright (c) 2015, Cook
  */
 
 namespace Cook;

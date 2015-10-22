@@ -2,8 +2,9 @@
 /**
  * Router/Router.php
  *
+ * @category Cook
  * @package Router
- * @copyright 2015, Cook
+ * @copyright Copyright (c) 2015, Cook
  */
 
 namespace Cook\Router;
@@ -11,6 +12,8 @@ namespace Cook\Router;
 /**
  * Permet de router l'URL vers les bons fichiers controllers/(action)/views
  *
+ * @category Cook
+ * @package Application
  * @author Guillaume Bouyer <framework_cook[@]icloud.com>
  */
 class Router
@@ -20,7 +23,6 @@ class Router
 	 *
 	 * @param string 	$request_uri 	$_SERVER['REQUEST_URI']
 	 * @param array 	$defaults 		Controller et action par défaut
-	 *
 	 * @return void
 	 */
 	public function parseRoute($request_uri = null, array $defaults)
@@ -43,7 +45,6 @@ class Router
 	 *
 	 * @param array 	$uri 		Tableau de l'URL parser
 	 * @param array 	$defaults 	Controller et action par défaut
-	 *
 	 * @return void
 	 */
 	private function dispatchController(array $uri, array $defaults)

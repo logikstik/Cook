@@ -3,7 +3,7 @@
  * controllers/error/errorController.php
  *
  * @package errorController
- * @copyright 2015, Cook
+ * @copyright Copyright (c) 2015, Cook
  */
 
 namespace Controllers\Error;

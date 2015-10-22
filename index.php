@@ -1,7 +1,8 @@
 <?php
-	
 /**
- * Run application
+ * Initialise l'application
+ *
+ * @copyright Copyright (c) 2015, Cook
  */
 
 // Démarrage de la session

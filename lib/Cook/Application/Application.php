@@ -2,8 +2,9 @@
 /**
  * Application/Application.php
  *
+ * @category Cook
  * @package Application
- * @copyright 2015, Cook
+ * @copyright Copyright (c) 2015, Cook
  */
 
 namespace Cook\Application;
@@ -11,19 +12,21 @@ namespace Cook\Application;
 /**
  * Préparer les différentes inclusions avant de lancer l'application
  *
+ * @category Cook
+ * @package Application
  * @author Guillaume Bouyer <framework_cook[@]icloud.com>
  */
 class Application
 {
 	/**
 	 * Contient les paramètres de $_SERVER['REQUEST_URI']
-	 * @param $_route string $_SERVER['REQUEST_URI']
+	 * @var $_route string
 	 */
 	protected $_route = null;
 	
 	/**
 	 * Contient le nom du controller et de l'action à charger par defaut
-	 * @param $_defaults array Nom du controller et de l'action
+	 * @var $_defaults array
 	 */
 	protected $_defaults = array(
 		'controller' => 'index',
@@ -36,7 +39,6 @@ class Application
 	 *
 	 * @param string 	$controller 	Controller à charger par défaut
 	 * @param string 	$action 		Action à charger par défaut
-	 *
 	 * @return void
 	 */
 	public function __construct($controller = null, $action = null)
@@ -47,12 +49,13 @@ class Application
 	}
 	
 	/**
-	 * Transmet le request_uri et le tableau $_defaults au Router()
+	 * Passe des informations au router
 	 *
 	 * @return void
 	 */
 	public function dispatch()
 	{
+		// Router
 		$router = new \Cook\Router\Router();
 		$router->parseRoute($this->_route, $this->_defaults);
 	}
@@ -62,7 +65,8 @@ class Application
 	 *
 	 * @return void
 	 */
-	public function run() {
+	public function run()
+	{
 		$this->dispatch();
 	}
 }
