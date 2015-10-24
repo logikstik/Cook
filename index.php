@@ -20,5 +20,5 @@ include_once 'lib/Cook/Loader.php';
 $loader = new \Cook\Loader();
 
 // Lancement de l'application
-$app = new \Cook\Application\Application();
+$app = new \Cook\Application();
 $app->run();

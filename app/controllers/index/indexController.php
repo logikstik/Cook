@@ -8,13 +8,15 @@
 
 namespace Controllers\Index;
 
+use Cook\Controller as Controller;
+
 /**
  * Controller par défaut
  *
  * @author Guillaume Bouyer <framework_cook[@]icloud.com>
  */
-class indexController
-{
+class indexController extends Controller
+{	
 	/**
 	 * Action par défaut
 	 *
@@ -29,17 +31,17 @@ class indexController
 	/**
 	 * Action de test ;)
 	 *
-	 * @param string 	$nom 	Nom de l'utilisateur
+	 * @param string 	$name 	Nom de l'utilisateur
 	 * @param int		$id		ID de l'utilisateur
 	 *
 	 * @return string
 	 */	
-	public function testAction($nom = 'John Doe', $id = null)
+	public function testAction($name = 'John Doe', $id = null)
 	{		
 		echo '<h1>Framework Cook</h1>';
-		echo '<p>Bienvenue '. ucfirst($nom) .' sur le framework Cook !</p>';
+		echo '<p>Bienvenue '. ucfirst($name) .' sur le framework Cook !</p>';
 		
-		if ($id !== null) {
+		if (isset($id)) {
 			echo '<p>Votre ID : '. $id .'</p>';
 		}
 	}

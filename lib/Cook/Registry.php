@@ -1,20 +1,20 @@
 <?php
 /**
- * Registry/Registry.php
+ * Registry.php
  *
  * @category Cook
  * @package Registry
  * @copyright Copyright (c) 2015, Cook
  */
 
-namespace Cook\Registry;
+namespace Cook;
 
 /**
  * Permet de passer des données dans tous les controllers.
  * Une sorte de Superglobales ;)
  *
  * @category Cook
- * @package Application
+ * @package Registry
  * @author Guillaume Bouyer <framework_cook[@]icloud.com>
  */
 class Registry
@@ -26,7 +26,7 @@ class Registry
 	 private static $instance;
 
 	 /**
-	  * Les variables
+	  * Le tableau du registre contenant les informations
 	  * @var array
 	  */
 	 private $variables = array();
@@ -34,7 +34,7 @@ class Registry
 	 /**
 	  * Get the singleton instance
 	  *
-	  * @return Loader
+	  * @return Registry
 	  */
 	 public static function instance()
 	 {

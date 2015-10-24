@@ -8,12 +8,14 @@
 
 namespace Controllers\Error;
 
+use Cook\Controller as Controller;
+
 /**
  * Retourne une erreur selon le code erreur donné
  *
  * @author Guillaume Bouyer <framework_cook[@]icloud.com>
  */
-class errorController
+class errorController extends Controller
 {
 	/**
 	 * Retourne une erreur selon le code HEADER

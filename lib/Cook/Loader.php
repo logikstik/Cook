@@ -2,6 +2,7 @@
 /**
  * Loader.php
  *
+ * @category Cook
  * @package Loader
  * @copyright Copyright (c) 2015, Cook
  */
@@ -11,6 +12,8 @@ namespace Cook;
 /**
  * Permet de charger les fichiers des classes automatiquement
  *
+ * @category Cook
+ * @package Loader
  * @author Guillaume Bouyer <framework_cook[@]icloud.com>
  */
 class Loader
@@ -28,8 +31,8 @@ class Loader
 	        get_include_path() . PATH_SEPARATOR . implode(
 	            PATH_SEPARATOR,
 				array(
-					$_SERVER['DOCUMENT_ROOT'] . DIRECTORY_SEPARATOR . 'lib',
-					$_SERVER['DOCUMENT_ROOT'] . DIRECTORY_SEPARATOR . 'app'
+					$_SERVER['DOCUMENT_ROOT'] . DIRECTORY_SEPARATOR .'lib',
+					$_SERVER['DOCUMENT_ROOT'] . DIRECTORY_SEPARATOR .'app'
 				)
 	        )
 	    );

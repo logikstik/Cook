@@ -1,13 +1,13 @@
 <?php
 /**
- * Application/Application.php
+ * Application.php
  *
  * @category Cook
  * @package Application
  * @copyright Copyright (c) 2015, Cook
  */
 
-namespace Cook\Application;
+namespace Cook;
 
 /**
  * Préparer les différentes inclusions avant de lancer l'application
@@ -20,15 +20,15 @@ class Application
 {
 	/**
 	 * Contient les paramètres de $_SERVER['REQUEST_URI']
-	 * @var $_route string
+	 * @var string
 	 */
-	protected $_route = null;
+	private $uri;
 	
 	/**
 	 * Contient le nom du controller et de l'action à charger par defaut
-	 * @var $_defaults array
+	 * @var array
 	 */
-	protected $_defaults = array(
+	private $defaults = array(
 		'controller' => 'index',
 		'action' => 'index'
 	);
@@ -43,21 +43,25 @@ class Application
 	 */
 	public function __construct($controller = null, $action = null)
 	{
-		$this->_route = strtolower($_SERVER['REQUEST_URI']);
-		$this->_defaults['controller'] = (!empty($controller)) ? $controller : $this->_defaults['controller'];
-		$this->_defaults['action'] = (!empty($action)) ? $action : $this->_defaults['action'];
+		$this->uri = strtolower($_SERVER['REQUEST_URI']);
+		$this->defaults['controller'] = (!empty($controller)) ? $controller : $this->defaults['controller'];
+		$this->defaults['action'] = (!empty($action)) ? $action : $this->defaults['action'];
 	}
 	
 	/**
-	 * Passe des informations au router
+	 * Chargement des classes nécessaire à l'application
 	 *
 	 * @return void
 	 */
 	public function dispatch()
 	{
+		// Config
+		$config = new \Cook\Config();
+		$debug = $config->setConfig();
+		
 		// Router
-		$router = new \Cook\Router\Router();
-		$router->parseRoute($this->_route, $this->_defaults);
+		$router = new \Cook\Router();
+		$router->parseRoute($this->uri, $this->defaults);
 	}
 	
 	/**
