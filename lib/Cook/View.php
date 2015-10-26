@@ -41,6 +41,12 @@ class View
 	private static $layout;
 
 	/**
+	 * Template
+	 * @var string
+	 */
+	private static $template;
+
+	/**
 	 * Content
 	 * @var string
 	 */
@@ -59,6 +65,7 @@ class View
 	{
 		$this->setRegistry(new Registry);
 		$this->setLayout('default/layout.phtml');
+		$this->setTemplate(self::$registry->get('action') . '.phtml');
 	}
 	 
 	/**
@@ -73,16 +80,6 @@ class View
 		}
 		 
 		return self::$instance;
-	}
-	 
-	/**
-	 * Enregistre un layout pour un controller
-	 *
-	 * @param	$name	string	Nom du layout
-	 */
-	public function setLayout($name = null)
-	{
-		$this->layout = $name;
 	}
 	 
  	/**
@@ -137,19 +134,58 @@ class View
 	{
 		unset(self::$variables[$name]);
     }
+
+	/**
+	 * Enregistre un layout pour un controller ou une action
+	 *
+	 * @param	$name	string	Nom du layout
+	 */
+	public function setLayout($name = null)
+	{
+		$this->layout = 'views/layouts/'. $name;
+	}
+
+	/**
+	 * Enregistre un template pour un controller ou une action
+	 *
+	 * @param	$name	string	Nom du template
+	 */
+	public function setTemplate($name = null)
+	{
+		$this->template = 'views/'. self::$registry->get('controller') .'/'. $name;
+	}
+
+	/**
+	 * Retourne le template en y incluant les variables
+	 *
+	 * @return View
+	 */
+	public function getTemplate()
+	{
+		if ($this->fileExists($this->template)) {
+			extract(self::$variables);	
+	        ob_start();
+	        include($this->template);
+			self::$variables['content'] = ob_get_contents();
+			ob_clean();
+	    }
+		else {
+	        ob_clean();
+	        throw new Exception('Le template est inexsitant');
+	    }
+	}
 	 
 	/**
-	 * Get the singleton instance
+	 * Retourne le template en y incluant les variables
 	 *
 	 * @return View
 	 */
 	public function show()
 	{
 		extract(self::$variables);
-		
-		$template_layout = 'views/layouts/'. $this->layout;
-		if ($this->fileExists($template_layout)) {
-			include_once $template_layout;
+		if ($this->fileExists($this->layout) && $this->fileExists($this->template)) {
+			$this->getTemplate();
+			include_once $this->layout;
 		}
 		else {
 			throw new Exception('Le layout est inexsitant');
@@ -164,6 +200,7 @@ class View
 	 */
 	public function __toString()
 	{
+		$this->showTemplate();
 		$this->show();
 		$contents = ob_get_contents();
 		ob_clean();

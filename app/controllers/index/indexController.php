@@ -24,6 +24,7 @@ class indexController extends Controller
 	 */
 	public function indexAction()
 	{
+		// Envoi de la vue
 		$this->view->show();
 	}
 	
@@ -37,13 +38,14 @@ class indexController extends Controller
 	 */	
 	public function testAction($name = 'John Doe', $id = null)
 	{		
-		echo '<h1>Framework Cook</h1>';
-		echo '<p>Bienvenue '. ucfirst($name) .' sur le framework Cook !</p>';
+		// Déclaration des variable pour la vue
+		$this->view->name = $name;
+		$this->view->id_user = $id;
 		
-		if (isset($id)) {
-			echo '<p>Votre ID : '. $id .'</p>';
-		}
+		// Changement de layout pour cette action
+		$this->view->setLayout('test.phtml');
 		
+		// Envoi de la vue
 		$this->view->show();
 	}
 }

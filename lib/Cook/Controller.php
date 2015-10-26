@@ -49,18 +49,6 @@ abstract class Controller extends View
 			'description' => $this->registry->get('meta')->description,
 			'keywords' => $this->registry->get('meta')->keywords
 		);
-
-		$template_layout = 'views/'. $this->registry->get('controller') .'/'. $this->registry->get('action') . '.phtml';
-		
-		if (parent::fileExists($template_layout)) {
-			$this->view->content = file_get_contents(
-				$template_layout, 
-				FILE_USE_INCLUDE_PATH
-			);
-		}
-		else {
-			throw new Exception('Le template du controller est inexistant :' . $template_layout);
-		}
 		
 		// $this->registry->set('url', 'localhost');
 		// echo $this->registry->get('url');
