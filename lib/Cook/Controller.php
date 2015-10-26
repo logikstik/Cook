@@ -36,12 +36,31 @@ abstract class Controller extends View
 	
 	/**
 	 * Constructeur
-	 * Instancie le registre
+	 * Instancie le registre et la vue
 	 */
 	public function __construct()
 	{
 		$this->view = parent::instance();
 		$this->registry = $this->view->setRegistry(new Registry);
+		
+		$this->view->base_url = $this->registry->get('base_url');
+		$this->view->meta = array(
+			'title' => $this->registry->get('meta')->title,
+			'description' => $this->registry->get('meta')->description,
+			'keywords' => $this->registry->get('meta')->keywords
+		);
+
+		$template_layout = 'views/'. $this->registry->get('controller') .'/'. $this->registry->get('action') . '.phtml';
+		
+		if (parent::fileExists($template_layout)) {
+			$this->view->content = file_get_contents(
+				$template_layout, 
+				FILE_USE_INCLUDE_PATH
+			);
+		}
+		else {
+			throw new Exception('Le template du controller est inexistant :' . $template_layout);
+		}
 		
 		// $this->registry->set('url', 'localhost');
 		// echo $this->registry->get('url');

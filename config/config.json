@@ -1,10 +1,15 @@
 {
+	"meta": {
+		"title": "Framework Cook",
+		"description": "Description de mon application",
+		"keywords": "les, mots, clés, de, mon, application"
+	},
 	"db": {
 		"host": "localhost", 
 		"dbname": "cook",
 		"user": "root",
 		"pass": "root"
 	},
-	"base_url": "http://www.cook.com:8888/",
+	"base_url": "http://www.cook.com:8888",
 	"debug": true
 }

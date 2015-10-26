@@ -5,9 +5,11 @@ SetEnv HTTP_MOD_REWRITE On
 
 RewriteEngine on
 
-RewriteCond %{REQUEST_FILENAME} -s
-RewriteCond %{REQUEST_FILENAME} -l
-RewriteCond %{REQUEST_FILENAME} -d
+RewriteCond %{REQUEST_FILENAME} -s [OR]
+RewriteCond %{REQUEST_FILENAME} -l [OR]
+RewriteCond %{REQUEST_FILENAME} -d [OR]
+RewriteCond %{REQUEST_FILENAME} -f
+RewriteCond %{REQUEST_URI} ^/skins.*$
 
 RewriteRule ^.*$ - [NC,L]
 RewriteRule ^.*$ index.php [NC,L]

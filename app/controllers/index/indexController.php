@@ -24,8 +24,7 @@ class indexController extends Controller
 	 */
 	public function indexAction()
 	{
-		echo '<h1>Framework Cook</h1>';
-		echo '<p>Bienvenue sur le framework Cook !</p>';
+		$this->view->show();
 	}
 	
 	/**
@@ -44,6 +43,8 @@ class indexController extends Controller
 		if (isset($id)) {
 			echo '<p>Votre ID : '. $id .'</p>';
 		}
+		
+		$this->view->show();
 	}
 }
 
