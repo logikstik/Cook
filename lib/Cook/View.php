@@ -65,7 +65,7 @@ class View
 	{
 		$this->setRegistry(new Registry);
 		$this->setLayout('default/layout.phtml');
-		$this->setTemplate(self::$registry->get('action') . '.phtml');
+		$this->setTemplate(self::$registry->get('controller') .'/'. self::$registry->get('action') . '.phtml');
 	}
 	 
 	/**
@@ -152,7 +152,7 @@ class View
 	 */
 	public function setTemplate($name = null)
 	{
-		$this->template = 'views/'. self::$registry->get('controller') .'/'. $name;
+		$this->template = 'views/'. $name;
 	}
 
 	/**
@@ -165,13 +165,12 @@ class View
 		if ($this->fileExists($this->template)) {
 			extract(self::$variables);	
 	        ob_start();
-	        include($this->template);
+	        include_once $this->template;
 			self::$variables['content'] = ob_get_contents();
 			ob_clean();
 	    }
 		else {
-	        ob_clean();
-	        throw new Exception('Le template est inexsitant');
+	        throw new Exception('Le template est inexistant : '. $this->template);
 	    }
 	}
 	 
@@ -183,12 +182,12 @@ class View
 	public function show()
 	{
 		extract(self::$variables);
-		if ($this->fileExists($this->layout) && $this->fileExists($this->template)) {
+		if ($this->fileExists($this->layout)) {
 			$this->getTemplate();
 			include_once $this->layout;
 		}
 		else {
-			throw new Exception('Le layout est inexsitant');
+			throw new Exception('Le layout est inexistant : '. $this->layout);
 		}
 	}
 	 

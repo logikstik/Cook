@@ -11,24 +11,26 @@ namespace Controllers\Error;
 use Cook\Controller as Controller;
 
 /**
- * Retourne une erreur selon le code erreur donné
+ * Retourne une erreur
  *
  * @author Guillaume Bouyer <framework_cook[@]icloud.com>
  */
 class errorController extends Controller
 {
 	/**
-	 * Retourne une erreur selon le code HEADER
+	 * Retourne une erreur
 	 *
-	 * @param string $error Code erreur
-	 *
-	 * @return string
+	 * @param string 	$message 	Message d'erreur
+	 * @param string 	$error 		Code erreur
+	 * @return View
 	 */
-	public function errorAction($error = NULL)
+	public function errorAction($message, $code)
 	{
-		if ($error == 404) {
-			echo '<h1>Erreur 404</h1>';
-		}
+		$this->view->errorMessage = $message;
+		$this->view->errorCode = $code;
+		
+		$this->view->setTemplate('error/error.phtml');
+		$this->view->show();
 	}
 }
 

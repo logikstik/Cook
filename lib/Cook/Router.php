@@ -102,7 +102,7 @@ class Router extends Registry
 				}
 				else {
 					$error = new \controllers\error\errorController();
-					$error->errorAction(404);
+					$error->errorAction('Page non trouvé', 404);
 					
 					if ($this->registry->get('debug')) {
 						throw new \Exception('Action "'. $action .'" est inexistant');
@@ -115,7 +115,7 @@ class Router extends Registry
 		}
 		else {
 			$error = new \controllers\error\errorController();
-			$error->errorAction(404);
+			$error->errorAction('Page non trouvé', 404);
 			
 			if ($this->registry->get('debug')) {
 				throw new \Exception('Controlleur "'. $controller .'" est inexistant');

@@ -20,7 +20,7 @@ class indexController extends Controller
 	/**
 	 * Action par défaut
 	 *
-	 * @return string
+	 * @return View
 	 */
 	public function indexAction()
 	{
@@ -33,8 +33,7 @@ class indexController extends Controller
 	 *
 	 * @param string 	$name 	Nom de l'utilisateur
 	 * @param int		$id		ID de l'utilisateur
-	 *
-	 * @return string
+	 * @return View
 	 */	
 	public function testAction($name = 'John Doe', $id = null)
 	{		
