@@ -10,6 +10,16 @@ namespace Controllers\Index;
 
 use Cook\Controller as Controller;
 
+/*
+ * Inclusion des models à utiliser
+ */
+use Models\Index\UserModel as Db_User;
+
+/*
+ * Inclusion des helpers à utiliser
+ */
+use Helpers\TestHelper as Helper_Test;
+
 /**
  * Controller par défaut
  *
@@ -23,7 +33,10 @@ class indexController extends Controller
 	 * @return View
 	 */
 	public function indexAction()
-	{
+	{		
+		// Helper Test (helpers/testHelper.php)
+		// $this->view->name = Helper_Test::quisuisje('Guillaume');
+		
 		// Envoi de la vue
 		$this->view->show();
 	}
@@ -35,16 +48,15 @@ class indexController extends Controller
 	 * @param int		$id		ID de l'utilisateur
 	 * @return View
 	 */	
-	public function testAction($name = 'John Doe', $id = null)
+	public function testAction($name = 'John Doe', $id = 0)
 	{		
 		// Déclaration des variable pour la vue
 		$this->view->name = $name;
 		$this->view->id_user = $id;
 		
 		// Changement de layout pour cette action
-		$this->view->setLayout('test.phtml');
-		
 		// Envoi de la vue
+		$this->view->setLayout('test.phtml');
 		$this->view->show();
 	}
 }

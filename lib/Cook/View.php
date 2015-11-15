@@ -85,7 +85,7 @@ class View
  	/**
 	 * Instancie le Registry
 	 *
-	 * @param   Cook\Registry\Registry    $registry   Registry
+	 * @param   Cook\Registry    $registry   Registry
 	 */
 	public static function setRegistry(Registry $registry)
 	{

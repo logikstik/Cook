@@ -9,7 +9,7 @@
 
 namespace Cook;
 
-use Cook\Registry as Registry;
+// use Cook\Registry as Registry;
 use Cook\View as View;
 use Cook\Exception as Exception;
 
@@ -23,16 +23,16 @@ use Cook\Exception as Exception;
 abstract class Controller extends View
 {
 	/**
-	 * Registry
-	 * @var Registry
-	 */
-	private static $registry;
-	
-	/**
 	 * View
 	 * @var View
 	 */
 	private static $view;
+	
+	/**
+	 * Registry
+	 * @var Registry
+	 */
+	private static $registry;
 	
 	/**
 	 * Constructeur
