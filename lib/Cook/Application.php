@@ -9,6 +9,9 @@
 
 namespace Cook;
 
+use Cook\Config as Config;
+use Cook\Router as Router;
+
 /**
  * Préparer les différentes inclusions avant de lancer l'application
  *
@@ -17,37 +20,7 @@ namespace Cook;
  * @author Guillaume Bouyer <framework_cook[@]icloud.com>
  */
 class Application
-{
-	/**
-	 * Contient les paramètres de $_SERVER['REQUEST_URI']
-	 * @var string
-	 */
-	private $uri;
-	
-	/**
-	 * Contient le nom du controller et de l'action à charger par defaut
-	 * @var array
-	 */
-	private $defaults = array(
-		'controller' => 'index',
-		'action' => 'index'
-	);
-	
-	/**
-	 * Prépare le nom du controller et l'action par défault
-	 * avant de l'envoyer au Router()
-	 *
-	 * @param string 	$controller 	Controller à charger par défaut
-	 * @param string 	$action 		Action à charger par défaut
-	 * @return void
-	 */
-	public function __construct($controller = null, $action = null)
-	{
-		$this->uri = strtolower($_SERVER['REQUEST_URI']);
-		$this->defaults['controller'] = (!empty($controller)) ? $controller : $this->defaults['controller'];
-		$this->defaults['action'] = (!empty($action)) ? $action : $this->defaults['action'];
-	}
-	
+{	
 	/**
 	 * Chargement des classes nécessaire à l'application
 	 *
@@ -56,12 +29,15 @@ class Application
 	public function dispatch()
 	{
 		// Config
-		$config = new \Cook\Config();
-		$debug = $config->setConfig();
+		$path_config = $_SERVER['DOCUMENT_ROOT'] . DIRECTORY_SEPARATOR .'config'. DIRECTORY_SEPARATOR;
+		$config = new Config();
+		$config->setConfig($path_config .'config.json');
 		
 		// Router
-		$router = new \Cook\Router();
-		$router->parseRoute($this->uri, $this->defaults);
+		$uri = strtolower($_SERVER['REQUEST_URI']);
+		$router = Router::instance();
+		$router->addRule($path_config .'routes.json');
+		$router->dispatchRouter($uri);
 	}
 	
 	/**

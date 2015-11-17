@@ -6,7 +6,7 @@
  * @copyright Copyright (c) 2015, Cook
  */
 
-namespace Controllers\Error;
+namespace Controllers;
 
 use Cook\Controller as Controller;
 
@@ -18,18 +18,12 @@ use Cook\Controller as Controller;
 class errorController extends Controller
 {
 	/**
-	 * Retourne une erreur
+	 * Retourne une erreur 404
 	 *
-	 * @param string 	$message 	Message d'erreur
-	 * @param string 	$error 		Code erreur
 	 * @return View
 	 */
-	public function errorAction($message, $code)
+	public function notfoundAction()
 	{
-		$this->view->errorMessage = $message;
-		$this->view->errorCode = $code;
-		
-		$this->view->setTemplate('error/error.phtml');
 		$this->view->show();
 	}
 }

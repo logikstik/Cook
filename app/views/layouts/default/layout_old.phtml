@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title><?php echo $this->view->meta['title']; ?></title>
+	<meta name="description" content="<?php echo $this->view->meta['description']; ?>">
+	<meta name="keywords" content="<?php echo $this->view->meta['keywords']; ?>">
+
+	<!-- Bootstrap 3 CSS -->
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+
+	<!-- Font Awesome CSS -->
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
+
+    <!-- Normalize CSS -->
+    <link rel="stylesheet" href="<?php echo $this->view->base_url; ?>/skins/default/css/normalize.css">
+	
+    <!-- Led/OS CSS -->
+    <link rel="stylesheet" href="<?php echo $this->view->base_url; ?>/skins/default/css/ledos.css">
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+		<script src="<?php echo $this->view->base_url; ?>/skin/default/js/ie/excanvas.js"></script>
+    <![endif]-->
+</head>
+<body>
+	<!-- .application -->
+	<section class="app">
+		<!-- .navbar-header -->
+		<header class="nav navbar navbar-default navbar-static-top box-shadow bg-white">
+			<!-- .logo -->
+			<div class="navbar-header aside-md">
+				<a href="<?php echo $this->view->base_url; ?>" class="navbar-brand logo">Led/OS</a>
+			</div>
+			<!-- /.logo -->
+			<!-- .form-search -->
+			<form class="nav navbar-form navbar-left hidden-xs" role="search">
+				<div class="form-group">
+					<div class="input-group">
+						<span class="input-group-btn">
+							<button type="submit" class="btn btn-sm bg-white b-white btn-icon">
+								<i class="fa fa-search"></i>
+							</button>
+						</span>
+						<input type="text" class="input-sm no-border" placeholder="Rechercher un produit, client...">
+					</div>
+				</div>
+			</form>
+			<!-- /.form-search -->
+			<!-- .nav-icons -->
+			<ul class="nav nav-pills navbar-left hidden-xs">
+				<li role="presentation" class="active"><a href="#"><i class="fa fa-tachometer"></i></a></li>
+				<li role="presentation"><a href="#"><i class="fa fa-cubes"></i></a></li>
+				<li role="presentation">
+					<a href="#">
+						<i class="fa fa-industry"></i>
+						<span class="badge badge-sm up bg-danger count hide">{provider.notification}</span>
+					</a>
+				</li>
+				<li role="presentation"><a href="#"><i class="fa fa-users"></i></a></li>
+				<li role="presentation"><a href="#"><i class="fa fa-area-chart"></i></a></li>
+			</ul>
+			<!-- /.nav-icons -->
+			<!-- .user-right -->
+			<ul class="nav nav-pills navbar-right hidden-xs">
+				<li class="dropdown">
+					<a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+						<span class="thumb-sm avatar pull-left">
+							<img src="skins/avatars/{user.avatar}" alt="{user.name}">
+						</span> 
+						{user.name} <b class="caret"></b>
+					</a>
+					<ul class="dropdown-menu">
+						<li>
+							<span class="arrow top"></span>
+							<a href="#">Profil</a>
+						</li>
+						<li><a href="#">Paramètres</a></li>
+						<li class="divider"></li>
+						<li><a href="#" data-toggle="ajaxModal">Déconnection</a></li>
+					</ul>
+				</li>
+			</ul>
+			<!-- /.user-right -->
+		</header>
+		<!-- /.navbar-header -->
+		<!-- .content -->
+		<section class="box">
+			<!-- .container -->
+			<section class="scrollable wrapper">
+				<div class="panel panel-default">
+					<header class="panel-heading">{panel.title}</header>
+					<div id="collapseOne" class="panel-collapse in">
+						<div class="panel-body text-sm">
+							<?php echo $this->view->content; ?>
+						</div>
+					</div>
+					<footer class="panel-footer bg-light">{panel.footer}</footer>
+				</div>
+			</section>
+			<!-- /.container -->
+		</section>
+		<!-- /.content -->
+	</section>
+	<!-- /.application -->
+	<!-- .javascript -->
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+	<!-- /.javascript -->
+</body>
+</html>

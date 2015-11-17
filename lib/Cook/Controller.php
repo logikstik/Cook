@@ -9,7 +9,6 @@
 
 namespace Cook;
 
-// use Cook\Registry as Registry;
 use Cook\View as View;
 use Cook\Exception as Exception;
 

@@ -44,9 +44,8 @@ class Config extends Registry
 	 *
 	 * @return bool\throw Exception 
 	 */
-	public function setConfig()
+	public function setConfig($config)
 	{
-		$config = $_SERVER['DOCUMENT_ROOT'] . DIRECTORY_SEPARATOR .'config'. DIRECTORY_SEPARATOR .'config.json';
 		if (file_exists($config)) {
 			$config = file_get_contents($config);
 			if ($config === false) {

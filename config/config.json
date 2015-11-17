@@ -10,6 +10,6 @@
 		"user": "root",
 		"pass": "root"
 	},
-	"base_url": "http://www.cook.com:8888",
-	"debug": true
+	"base_url": "http://www.domaine.com",
+	"debug": false
 }

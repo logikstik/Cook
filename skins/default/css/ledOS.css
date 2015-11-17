@@ -1,0 +1,332 @@
+/*
+ * LedOS CSS v.1.0.0
+ * @author Guillaume Bouyer
+ */
+
+/*
+ * Application
+ * Corps de la page
+ */
+html, body {
+	height: 100%;
+	width: 100;
+	overflow: hidden;
+}
+
+html {
+    background-color: #f2f4f8;
+    overflow-x: hidden;
+}
+
+body {
+    font-family: "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-size: 13px;
+    color: #788288;
+    background-color: transparent;
+}
+
+.app {
+	display: table;
+	border-spacing: 0;
+	position: relative;
+	height: 100%;
+	width: 100%;
+}
+
+.container {
+	padding-right: 15px;
+	padding-left: 15px;
+	margin-right: auto;
+	margin-left: auto;
+}
+
+.wrapper {
+	padding: 15px;
+}
+
+.scrollable {
+	height: auto;
+	overflow-x: hidden;
+	overflow-y: auto;
+}
+
+.btn {
+	font-weight: 500;
+	border-radius: 2px;
+}
+
+.avatar img {
+	position: relative;
+	display: block;
+	border-radius: 500px;
+	white-space: nowrap;
+	width: 100%;
+}
+
+.no-border, 
+.no-border:focus {
+	border-width: 0;
+	border-color: none;
+    outline: 0;
+	border-color: inherit;
+	box-shadow: none;
+}
+
+.pull-left {
+	float: left !important;
+}
+
+.thumb-sm img {
+	height: auto;
+	max-width: 100%;
+	vertical-align: middle;
+	display: inline-block;
+}
+
+/*
+ * Navigation header
+ */
+.aside-md {
+	width: 240px;
+}
+
+.aside-xl {
+	width: 360px;
+}
+
+.dropdown-menu>li>a:hover, 
+.dropdown-menu>li>a:focus, 
+.dropdown-menu>.active>a, 
+.dropdown-menu>.active>a:hover, 
+.dropdown-menu>.active>a:focus {
+	background-color:#f7f8fb;
+}
+
+.nav .avatar {
+	width: 30px;
+	margin-top: -6px;
+	margin-right: 10px;
+}
+
+.nav-pills>li>a {
+	color: #788288;
+	background: transparent;
+}
+
+.nav .open>a, 
+.nav .open>a:focus, 
+.nav .open>a:hover,
+.nav-pills>li>a:focus, 
+.nav-pills>li>a:hover,
+.nav-pills>li.active>a, 
+.nav-pills>li.active>a:focus, 
+.nav-pills>li.active>a:hover,
+.nav-pills>li.dropdown>a.active:focus, 
+.nav-pills>li.dropdown>a.active:hover {
+	color: #484f52;
+	background-color:#f7f8fb;
+	border: none;
+}
+
+.navbar {
+	padding: 12px 25px 0 25px;
+	margin-bottom: 0;
+	height: 60px;
+}
+
+.navbar-header>.btn {
+	position: absolute;
+	font-size: 1.3em;
+	padding: 9px 16px;
+	line-height: 30px;
+	left: 0;
+}
+
+.navbar-header .navbar-brand+.btn {
+	right: 0;
+	top: 6px;
+	left: auto;
+}
+
+.logo {
+	float: left;
+	background: transparent url('../img/logo.png') no-repeat;
+	text-indent: -9999px;
+	height: 30px;
+	width: 100%;
+	margin-top:3px;
+}
+
+.navbar-form {
+	padding: 0;
+	margin-top: 5px;
+}
+
+.navbar-form .form-group .input-group>input {
+	width: 250px;
+	font-size: 13px;
+}
+
+.badge {
+	display: inline-block;
+	min-width: 10px;
+	padding: 3px 7px;
+	font-size: 12px;
+	font-weight: bold;
+	line-height: 1;
+	color: #fff;
+	text-align: center;
+	white-space: nowrap;
+	vertical-align: baseline;
+	background-color: #777;
+	border-radius: 10px;
+}
+
+.badge.up {
+	position: absolute;
+	right: 0;
+	top: 0;
+	padding: 3px 6px;
+	margin-left: -10px;
+	z-index: 100;
+}
+
+.badge-sm {
+	font-size: 85%;
+	padding: 2px 5px !important;
+}
+
+/*
+ * Arrow menu
+ */
+.arrow.top {
+	left: 50%;
+	margin-left: -8px;
+	border-top-width: 0;
+	border-bottom-color: #eee;
+	border-bottom-color: rgba(0, 0, 0, 0.1);
+	top: -8px;
+}
+
+.arrow.top:after {
+	content: " ";
+	top: 1px;
+	margin-left: -7px;
+	border-top-width: 0;
+	border-bottom-color: #fff;
+}
+
+.arrow {
+	border-width: 8px;
+	z-index: 10;
+}
+
+.arrow:after {
+	border-width: 7px;
+	content: "";
+}
+
+.arrow, .arrow:after {
+	position: absolute;
+	display: block;
+	width: 0;
+	height: 0;
+	border-color: transparent;
+	border-style: solid;
+}
+
+/*
+ * Panel
+ */
+.panel {
+	margin-bottom: 20px;
+	background-color: #fff;
+	border: 1px solid transparent;
+	box-shadow: 0 1px 1px rgba(0, 0, 0, .05);
+}
+
+.panel-heading {
+	border-radius: 2px 2px 0 0;
+	padding: 10px 15px;
+	border-bottom: 1px solid transparent;
+	border-top-left-radius: 3px;
+	border-top-right-radius: 3px;
+}
+
+.panel-footer {
+	border-radius: 0;
+	background-color: #f9fafc;
+	padding: 10px 15px;
+	border-top: 1px solid #ddd;
+}
+
+.panel.panel-default, 
+.panel.panel-default>.panel-heading, 
+.panel.panel-default>.panel-footer {
+	color: #646464;
+	border-color: #eaeef1;
+}
+
+.panel-default .panel-heading {
+	background-color: #f9fafc;
+}
+
+/*
+ * Login
+ */
+.login {
+	padding: 50px;
+}
+
+.login header {
+	font-size: 18px;
+	font-weight: 300;
+}
+
+.login .btn {
+	font-weight: 300;
+}
+
+.login .padder {
+	padding-left: 15px;
+	padding-right: 15px;
+}
+
+/*
+ * Colors
+ * Fond en couleur, texte, etc...
+ */
+.bg-danger {
+	background-color: #e33244;
+	color: #fce5e8;
+}
+
+.bg-white {
+	background-color: #fff;
+	color: #788288;
+}
+
+.bg-white a {
+	color: #3c4144;
+}
+
+.bg-light {
+	background-color: #fcfcfd;
+	color: #788288;
+}
+
+.b-white {
+	border-color: #fff;
+}
+
+.text-sm {
+	font-size: 12px;
+}
+
+/*
+ * Others
+ * Différentes classes pour le style ;)
+ */
+.box-shadow {
+	box-shadow: 0 2px 2px rgba(0, 0, 0, 0.05), 0 1px 0 rgba(0, 0, 0, 0.05);
+}

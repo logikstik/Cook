@@ -9,7 +9,7 @@
 
 namespace Cook;
 
-use Cook\Registry as Registry;
+// use Cook\Registry as Registry;
 use Cook\Exception as Exception;
 
 /**
@@ -63,9 +63,7 @@ class View
 	 */
 	public function __construct()
 	{
-		$this->setRegistry(new Registry);
 		$this->setLayout('default/layout.phtml');
-		$this->setTemplate(self::$registry->get('controller') .'/'. self::$registry->get('action') . '.phtml');
 	}
 	 
 	/**
@@ -170,7 +168,9 @@ class View
 			ob_clean();
 	    }
 		else {
+			echo '<pre>';
 	        throw new Exception('Le template est inexistant : '. $this->template);
+			echo '</pre>';
 	    }
 	}
 	 
@@ -187,7 +187,9 @@ class View
 			include_once $this->layout;
 		}
 		else {
+			echo '<pre>';
 			throw new Exception('Le layout est inexistant : '. $this->layout);
+			echo '</pre>';
 		}
 	}
 	 

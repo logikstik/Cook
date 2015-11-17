@@ -1,0 +1,6 @@
+{
+	"default": "get:indexController@indexAction",
+	"error": "get:errorController@notfoundAction",
+		
+	"/test/@name:[a-z]+/id/@id:[0-9]+": "get:indexController@testAction"
+}

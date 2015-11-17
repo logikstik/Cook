@@ -6,7 +6,7 @@
  * @copyright Copyright (c) 2015, Cook
  */
 
-namespace Controllers\Index;
+namespace Controllers;
 
 use Cook\Controller as Controller;
 
@@ -38,6 +38,7 @@ class indexController extends Controller
 		// $this->view->name = Helper_Test::quisuisje('Guillaume');
 		
 		// Envoi de la vue
+		// $this->view->setTemplate('index/test.phtml');
 		$this->view->show();
 	}
 	
@@ -48,7 +49,7 @@ class indexController extends Controller
 	 * @param int		$id		ID de l'utilisateur
 	 * @return View
 	 */	
-	public function testAction($name = 'John Doe', $id = 0)
+	public function testAction($name, $id)
 	{		
 		// Déclaration des variable pour la vue
 		$this->view->name = $name;
