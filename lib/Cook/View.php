@@ -9,7 +9,7 @@
 
 namespace Cook;
 
-// use Cook\Registry as Registry;
+use Cook\Registry as Registry;
 use Cook\Exception as Exception;
 
 /**
@@ -57,14 +57,6 @@ class View
 	 * @var array
      */
 	private static $variables = array();
-	
-	/**
-	 * Constructeur
-	 */
-	public function __construct()
-	{
-		$this->setLayout('default/layout.phtml');
-	}
 	 
 	/**
 	 * Get the singleton instance

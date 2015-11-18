@@ -10,6 +10,8 @@
 namespace Cook;
 
 use Cook\View as View;
+use Cook\Router as Router;
+use Cook\Registry as Registry;
 use Cook\Exception as Exception;
 
 /**
@@ -21,6 +23,12 @@ use Cook\Exception as Exception;
  */
 abstract class Controller extends View
 {
+	/**
+	 * Request
+	 * @var Request
+	 */
+	private static $request;
+	
 	/**
 	 * View
 	 * @var View
@@ -39,9 +47,16 @@ abstract class Controller extends View
 	 */
 	public function __construct()
 	{
+		// Request
+		$this->request = Router::instance();
+		
+		// View
 		$this->view = parent::instance();
+		$this->view->setLayout('default/layout.phtml');
 		$this->registry = $this->view->setRegistry(new Registry);
 		
+		// Variables par défault pour la vue (fichier config)
+		// Vérifier si les éléments sont bien le fichier de config ??
 		$this->view->base_url = $this->registry->get('base_url');
 		$this->view->meta = array(
 			'title' => $this->registry->get('meta')->title,

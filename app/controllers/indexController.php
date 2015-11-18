@@ -33,31 +33,32 @@ class indexController extends Controller
 	 * @return View
 	 */
 	public function indexAction()
-	{		
-		// Helper Test (helpers/testHelper.php)
-		// $this->view->name = Helper_Test::quisuisje('Guillaume');
+	{				
+		// Définir un template différent pour cette action
+		// Doit se situer dans le dossier "/app/views/"
+		// $this->view->setTemplate('mondossier/monfichier.phtml');
 		
 		// Envoi de la vue
-		// $this->view->setTemplate('index/test.phtml');
 		$this->view->show();
 	}
 	
 	/**
 	 * Action de test ;)
 	 *
-	 * @param string 	$name 	Nom de l'utilisateur
-	 * @param int		$id		ID de l'utilisateur
 	 * @return View
 	 */	
-	public function testAction($name, $id)
+	public function testAction()
 	{		
-		// Déclaration des variable pour la vue
-		$this->view->name = $name;
-		$this->view->id_user = $id;
+		// Helper Test (helpers/testHelper.php)		
+		// Déclaration d'une variable pour la vue
+		$_post = $this->request->getPost();
+		$this->view->name = ($_post['firstname']) ? $_post['firstname'] : Helper_Test::quisuisje('John Doe ?');
 		
 		// Changement de layout pour cette action
-		// Envoi de la vue
+		// Doit se situer dans le dossier "/app/views/layouts/"
 		$this->view->setLayout('test.phtml');
+		
+		// Envoi de la vue
 		$this->view->show();
 	}
 }

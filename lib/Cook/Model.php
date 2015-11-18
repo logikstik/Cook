@@ -20,7 +20,7 @@ use Cook\Db as Db;
  * @package Model
  * @author Guillaume Bouyer <framework_cook[@]icloud.com>
  */
-abstract class Model
+class Model
 {
 	/**
 	 * Db
@@ -34,7 +34,8 @@ abstract class Model
 	 */
 	public function __construct()
 	{
-		$this->db = Db::instance()->init();
+		$this->db = Db::instance();
+		$this->db->init();
 		$this->db->beginTransaction();
 	}
 	

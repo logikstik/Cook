@@ -20,10 +20,25 @@ class errorController extends Controller
 	/**
 	 * Retourne une erreur 404
 	 *
+	 * @param	$code	Code de l'erreur
 	 * @return View
 	 */
-	public function notfoundAction()
+	public function errorAction($code)
 	{
+		switch ($code) {
+			case 404:
+				$this->view->message = 'Not Found !';
+				break;
+			
+			case 405:
+				$this->view->message = 'Method Not Allowed';
+				break;
+			
+			default:
+				break;
+		}
+		
+		$this->view->code = $code;
 		$this->view->show();
 	}
 }

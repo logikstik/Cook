@@ -9,6 +9,7 @@
 
 namespace Cook;
 
+use \Cook\Request as Request;
 use Cook\View as View;
 use Cook\Exception as Exception;
 
@@ -19,32 +20,20 @@ use Cook\Exception as Exception;
  * @package Application
  * @author Guillaume Bouyer <framework_cook[@]icloud.com>
  */
-class Router
+class Router extends Request
 {
 	/**
 	 * Singleton
-	 * @var Router|null
+	 * @var Request|null
 	 */
 	private static $instance;
-	
-	/**
-	 * Variables contenant les éléments de la requête
-	 * @var string
-	 */
-    private $method, $controller, $action;
-
-	/**
-	 * Paramètres de la requête
-	 * @var array
-	 */
-    private $params = array();
 	
     /**
      * Liste des règles de routage
      * @var array
      */
     private $rules = array();
-	
+
 	/**
 	 * Get the singleton instance
 	 *
@@ -87,47 +76,45 @@ class Router
 	 * Appel la classe et la fonction PHP demandé via l'URL
 	 * et injecte les paramètres de l'URL dans la fonction
 	 *
-	 * @param string 	$uri	$_SERVER['REQUEST_URI']
 	 * @return void
 	 */
-	public function dispatchRouter($uri)
+	public function dispatchRouter()
 	{
-		$format = $this->formatUrl($uri);
+		$route = $this->getRoute();
+		$format = $this->formatUrl($route);
 		if (!$format) {
-			$this->method = $this->rules['default']['method'];
-			$this->template = $this->rules['default']['setTemplate'];
-		    $this->controller = $this->rules['default']['controller'];
-		    $this->action = $this->rules['default']['action'];
+			$this->stockRequest($this->rules['/']);
 		}
 		
 		$is_exist = $this->matchRoute($format);
 		if (!$is_exist && !empty($format)) {
-			$this->method = $this->rules['error']['method'];
-			$this->template = $this->rules['error']['setTemplate'];
-		    $this->controller = $this->rules['error']['controller'];
-		    $this->action = $this->rules['error']['action'];
+			$this->redirect('/error/404/');
 		}
 
+		if ($this->getMethod() != $_SERVER['REQUEST_METHOD']) {
+			$this->redirect('/error/405/');
+		}
+		
 		$view = new View();
 		$view->setTemplate($this->template);
 
-		$class = 'controllers\\'. $this->controller;
+		$class = 'controllers\\'. $this->getController();
 		$parents = class_parents($class);	
 		if (in_array('Cook\Controller', $parents)) {
 			$myClass = new $class;		
-			if (method_exists($myClass, $this->action) && is_callable(array($myClass, $this->action))) {
-				call_user_func_array(array($myClass, $this->action), $this->params);
-
+			if (method_exists($myClass, $this->getAction()) && is_callable(array($myClass, $this->getAction()))) {
+				call_user_func_array(array($myClass, $this->getAction()), $this->getParameters());
+					
 				if (!class_exists($class) && $this->registry->get('debug')) {
 					echo '<pre>';
-					throw new \Exception('Action "'. $this->action .'" est inexistant');
+					throw new \Exception('Action "'. $this->getAction() .'" est inexistant');
 					echo '</pre>';
 				}
 			}
 		}
 		else {
 			echo '<pre>';
-			throw new \Exception('Votre controller doit être une extension de la classe Controller()');
+			throw new \Exception('Votre controller doit être une extension de la classe Controller() : '. $this->getController());
 			echo '</pre>';
 		}
 	}
@@ -156,7 +143,7 @@ class Router
      */
     private function matchRoute($route)
     {		
-		if (!empty($this->rules) && !empty($route)) {	
+		if (!empty($this->rules) && !empty($route)) {
 			foreach ($this->rules as $key => $value) {
 				$pattern = preg_replace_callback('/@([a-z0-9]+):([^\/]+)/', function($v) {
 					return '(?P<'. $v[1] .'>'. $v[2] .')';
@@ -164,13 +151,10 @@ class Router
 				$pattern = '/^'. str_replace('/', '\/', $pattern) .'$/'; 
 				
 				if (preg_match($pattern, $route, $params)) {
-					$this->method = $this->rules[$key]['method'];
-					$this->template = $this->rules[$key]['setTemplate'];
-			        $this->controller = $this->rules[$key]['controller'];
-			        $this->action = $this->rules[$key]['action'];
-					
+					$this->stockRequest($this->rules[$key]);
 					if (!empty($params)) {
-						$this->params = $this->cleanArray($params);
+						$params = $this->cleanArray($params);
+						$this->setParameters($params);
 					}
 					
 					return true;
@@ -229,4 +213,21 @@ class Router
 		
 		return false;
 	}
+	
+    /**
+     * Stock les informations de la requête
+	 *
+     * @param string 	$array 	Tableau à stocker
+     * @return void
+     */
+    private function stockRequest(&$request)
+    {
+		$this->setMethod($request['method']);
+        $this->setController($request['controller']);
+        $this->setAction($request['action']);
+		$this->setQuery($_GET);
+		$this->setPost($_POST);
+		
+		$this->template = $request['setTemplate'];
+    }
 }

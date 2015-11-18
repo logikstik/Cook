@@ -9,8 +9,11 @@
 
 namespace Cook;
 
+use Cook\View as View;
 use Cook\Config as Config;
 use Cook\Router as Router;
+use Cook\Registry as Registry;
+use Cook\Exception as Exception;
 
 /**
  * Préparer les différentes inclusions avant de lancer l'application
@@ -22,22 +25,41 @@ use Cook\Router as Router;
 class Application
 {	
 	/**
+	 * Request
+	 * @var Request
+	 */
+	private static $request;
+	
+	/**
+	 * View
+	 * @var View
+	 */
+	private static $view;
+	
+	/**
+	 * Registry
+	 * @var Registry
+	 */
+	private static $registry;
+	
+	/**
 	 * Chargement des classes nécessaire à l'application
 	 *
 	 * @return void
 	 */
-	public function dispatch()
+	private function dispatch()
 	{
 		// Config
-		$path_config = $_SERVER['DOCUMENT_ROOT'] . DIRECTORY_SEPARATOR .'config'. DIRECTORY_SEPARATOR;
+		$path = $_SERVER['DOCUMENT_ROOT'] . DIRECTORY_SEPARATOR .'config'. DIRECTORY_SEPARATOR;
 		$config = new Config();
-		$config->setConfig($path_config .'config.json');
+		$config->setConfig($path .'config.json');
 		
 		// Router
-		$uri = strtolower($_SERVER['REQUEST_URI']);
+		$route = strtolower($_SERVER['REQUEST_URI']);
 		$router = Router::instance();
-		$router->addRule($path_config .'routes.json');
-		$router->dispatchRouter($uri);
+		$router->setRoute($route);
+		$router->addRule($path .'routes.json');
+		$router->dispatchRouter();
 	}
 	
 	/**

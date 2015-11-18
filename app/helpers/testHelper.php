@@ -17,7 +17,7 @@ class testHelper
 {
 	static public function quisuisje($name)
 	{		
-		return 'Vous êtes ' . $name;
+		return $name;
 	}
 }
 
