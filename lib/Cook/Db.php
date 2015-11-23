@@ -32,14 +32,16 @@ class Db
 	 * Registry
 	 * @var Registry
 	 */
-	private static $registry;
+	private $db;
 
 	/**
 	 * Constructeur
 	 */
 	public function __construct()
 	{
-		$this->setRegistry(new Registry);
+		$path = $_SERVER['DOCUMENT_ROOT'] . DIRECTORY_SEPARATOR .'config'. DIRECTORY_SEPARATOR;
+		Registry::setConfig($path .'db.json');
+		$this->db = Registry::get('db');
 	}
 
 	/**
@@ -52,9 +54,9 @@ class Db
 		if (self::$instance == null) {
 			try {
 				self::$instance = new \PDO(
-					'mysql:host='. self::$registry->db->host .';dbname='. self::$registry->db->dbname, 
-					self::$registry->db->user, 
-					self::$registry->db->pass, 
+					'mysql:host='. $this->db->host .';dbname='. $this->db->dbname, 
+					$this->db->user, 
+					$this->db->pass, 
 					array(
 						PDO::ATTR_PERSISTENT => true, 
 						PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES 'UTF8'",
@@ -69,15 +71,5 @@ class Db
 		}
 		
 		return self::$instance;
-	}
-	
- 	/**
-	 * Instancie le Registry
-	 *
-	 * @param   Cook\Registry    $registry   Registry
-	 */
-	public static function setRegistry(Registry $registry)
-	{
-		return self::$registry = $registry;
 	}
 }

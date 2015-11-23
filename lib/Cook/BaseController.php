@@ -61,6 +61,10 @@ abstract class BaseController
 		$this->locale = Locale::instance();
 		
 		// Registry
+		$path = $_SERVER['DOCUMENT_ROOT'] . DIRECTORY_SEPARATOR .'config'. DIRECTORY_SEPARATOR;
+		Registry::setConfig($path .'globals.json');
+		Registry::setConfig($path .'env.json');
+		
 		$env = Registry::get('env');
 		$meta = Registry::get('meta');
 		

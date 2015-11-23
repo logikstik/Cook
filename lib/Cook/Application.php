@@ -34,10 +34,7 @@ class Application
 		$path = $_SERVER['DOCUMENT_ROOT'] . DIRECTORY_SEPARATOR .'config'. DIRECTORY_SEPARATOR;
 		
 		// Registry
-		Registry::setConfig($path .'globals.json');
 		Registry::setConfig($path .'routes.json');
-		Registry::setConfig($path .'db.json');
-		Registry::setConfig($path .'env.json');
 		Registry::setConfig($path .'locales.json');
 		
 		// Locale
