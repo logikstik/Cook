@@ -17,7 +17,7 @@ namespace Cook;
  * @package Registry
  * @author Guillaume Bouyer <framework_cook[@]icloud.com>
  */
-class Registry
+class Registry extends \ArrayObject
 {
 	/**
 	 * Singleton
@@ -30,6 +30,19 @@ class Registry
 	  * @var array
 	  */
 	 private $variables = array();
+	 
+	 /**
+	  * Constructeur
+	  */
+	 public function __construct() {}
+	 
+	 /**
+	  * Prevent cloning of the object: issues an E_USER_ERROR if this is attempted
+	  */
+	 public function __clone()
+	 {
+		 trigger_error( 'Cloning the registry is not permitted', E_USER_ERROR );
+	 }
 	 
 	 /**
 	  * Get the singleton instance
@@ -100,8 +113,12 @@ class Registry
 	  */
 	 public static function get($name)
 	 {
+		 if (!self::stored($name)) {
+			 return false;
+		 }
+		 
 		 $instance = self::instance();
-		 return $instance->$name;
+		 return $instance->offsetGet($name);
 	 }
 	 
 	 /**
@@ -113,7 +130,7 @@ class Registry
 	 public static function set($name, $value)
 	 {
 		 $instance = self::instance();
-		 $instance->$name = $value;
+		 $instance->offsetSet($name, $value);
 	 }
 	 
 	 /**
@@ -126,7 +143,7 @@ class Registry
 	 public static function stored($name)
 	 {
 		 $instance = self::instance();
-		 return isset($instance->$name);
+         return self::$instance->offsetExists($name);
 	 }
 	 
 	 /**
@@ -137,6 +154,37 @@ class Registry
 	 public static function remove($name)
 	 {
 		 $instance = self::instance();
-		 unset($instance->$name);
+		 $instance->offsetUnset($name);
 	 }
+	 
+ 	/**
+ 	 * Enregistre les données d'un fichier de configuration dans le registre
+ 	 *
+ 	 * @return bool\throw Exception 
+ 	 */
+ 	public static function setConfig($file)
+ 	{
+ 		if (file_exists($file)) {
+ 			$content = file_get_contents($file);
+ 			if ($content === false) {
+ 				throw new Exception('Impossible de lire le fichier de configuration');
+ 			}
+            
+ 			$content_decode = json_decode($content);
+ 			if ($content_decode === null) {
+ 				throw new Exception('Impossible de lire le fichier de configuration (problème de syntaxe)');
+ 			}
+			
+ 			foreach($content_decode as $key => $value) {
+ 				self::set($key, $value);
+ 			}
+
+ 			return true;
+ 		}
+ 		else {
+ 			throw new \Exception('Le fichier de configuration est inexistant !');
+ 		}
+		
+ 		return false;
+ 	}
 }

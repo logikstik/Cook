@@ -8,14 +8,14 @@
 
 namespace Controllers;
 
-use Cook\Controller as Controller;
+use Cook\BaseController as BaseController;
 
 /**
  * Retourne une erreur
  *
  * @author Guillaume Bouyer <framework_cook[@]icloud.com>
  */
-class errorController extends Controller
+class errorController extends BaseController
 {
 	/**
 	 * Retourne une erreur 404
@@ -25,20 +25,24 @@ class errorController extends Controller
 	 */
 	public function errorAction($code)
 	{
+		$this->view->code = $code;
 		switch ($code) {
 			case 404:
-				$this->view->message = 'Not Found !';
+				header("HTTP/1.0 404 Not Found");
+				$this->view->message = _('Non trouvé !');
 				break;
 			
 			case 405:
-				$this->view->message = 'Method Not Allowed';
+				header("HTTP/1.0 405 Method Not Allowed");
+				$this->view->message = _('Méthode non requis');
 				break;
 			
 			default:
+				$this->view->code .= ' ?';
+				$this->view->message = _('Mmmh... Connaît pas !?');
 				break;
 		}
 		
-		$this->view->code = $code;
 		$this->view->show();
 	}
 }

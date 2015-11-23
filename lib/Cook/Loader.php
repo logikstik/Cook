@@ -48,7 +48,7 @@ class Loader
 		        $file  = str_replace('\\', DIRECTORY_SEPARATOR, $namespace) . DIRECTORY_SEPARATOR;
 		    }
 			
-		    $file .= str_replace('_', DIRECTORY_SEPARATOR, $class) . '.php';
+			$file .= $class .'.php';
 			$paths = explode(PATH_SEPARATOR, get_include_path());
 			
 			foreach($paths as $path) {

@@ -1,0 +1,8 @@
+{
+	"db": {
+		"host": "localhost", 
+		"dbname": "cook",
+		"user": "root",
+		"pass": "root"
+	}
+}

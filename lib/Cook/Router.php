@@ -9,7 +9,7 @@
 
 namespace Cook;
 
-use \Cook\Request as Request;
+use Cook\Request as Request;
 use Cook\View as View;
 use Cook\Exception as Exception;
 
@@ -17,7 +17,7 @@ use Cook\Exception as Exception;
  * Permet de router l'URL vers les bons controllers/actions
  *
  * @category Cook
- * @package Application
+ * @package Router
  * @author Guillaume Bouyer <framework_cook[@]icloud.com>
  */
 class Router extends Request
@@ -33,7 +33,12 @@ class Router extends Request
      * @var array
      */
     private $rules = array();
-
+	
+	/**
+	 * Constructeur
+	 */
+	public function __construct() {}
+	
 	/**
 	 * Get the singleton instance
 	 *
@@ -51,19 +56,17 @@ class Router extends Request
     /**
      * Ajoute les règles de routage du fichier de config "routes.json"
      *
-     * @param string 	$file		Fichier de config : "/path/@variable:[a-z]+/": => "get:indexController@indexAction"
+     * @param array $routes	Fichier de config : "/path/@variable:[a-z]+/": => "get:indexController@indexAction"
 	 * @return array
      */
-    public function addRule($file)
+    public function addRules($routes)
     {
-		$routes = $this->setRules($file);
-				
 		foreach($routes as $route => $destination) {
 			preg_match("/(get|post|put|update|delete)?:?((.+)Controller)@((.+)Action)/", $destination, $paths);
 			if (empty($paths[1])) { $paths[1] = 'GET'; }
 			$this->rules[$route] = array(
 				'method' => strtoupper($paths[1]), 
-				'setTemplate' => $paths[3] .'/'. $paths[5] . '.phtml',
+				'template' => $paths[3] .'/'. $paths[5] . '.phtml',
 				'controller' => $paths[2], 
 				'action' => $paths[4]
 			);
@@ -88,24 +91,26 @@ class Router extends Request
 		
 		$is_exist = $this->matchRoute($format);
 		if (!$is_exist && !empty($format)) {
-			$this->redirect('/error/404/');
+			$this->setRoute('/error/404/');
+			return $this->dispatchRouter();
 		}
 
 		if ($this->getMethod() != $_SERVER['REQUEST_METHOD']) {
-			$this->redirect('/error/405/');
+			$this->setRoute('/error/405/');
+			return $this->dispatchRouter();
 		}
 		
-		$view = new View();
-		$view->setTemplate($this->template);
+		$view = View::instance();
+		$view->setTemplate($this->getTemplate());
 
 		$class = 'controllers\\'. $this->getController();
 		$parents = class_parents($class);	
-		if (in_array('Cook\Controller', $parents)) {
+		if (in_array('Cook\BaseController', $parents)) {
 			$myClass = new $class;		
 			if (method_exists($myClass, $this->getAction()) && is_callable(array($myClass, $this->getAction()))) {
 				call_user_func_array(array($myClass, $this->getAction()), $this->getParameters());
 					
-				if (!class_exists($class) && $this->registry->get('debug')) {
+				if (!class_exists($class) && $this->registry->get('env')->debug) {
 					echo '<pre>';
 					throw new \Exception('Action "'. $this->getAction() .'" est inexistant');
 					echo '</pre>';
@@ -114,7 +119,7 @@ class Router extends Request
 		}
 		else {
 			echo '<pre>';
-			throw new \Exception('Votre controller doit être une extension de la classe Controller() : '. $this->getController());
+			throw new \Exception('Votre controller doit être une extension de la classe BaseController() : '. $this->getController());
 			echo '</pre>';
 		}
 	}
@@ -182,33 +187,20 @@ class Router extends Request
     }
 	
 	/**
-	 * Enregistre les routes du fichier de configuration  "routes.json"
+	 * Enregistre l'uri en cours
 	 *
-	 * @param	$file	Chemin du fichier des routes
+	 * @param array 	$routes		Tableau contenant les routes à enregistrer
 	 * @return bool|array
 	 */
-	private function setRules($file)
+	private function setRules($routes)
 	{
-		if (file_exists($file)) {
-			$file = file_get_contents($file);
-			if ($file === false) {
-				throw new \Exception('Impossible de lire le fichier de configuration');
-			}
-            
-			$file = json_decode($file);
-			if ($file === null) {
-				throw new \Exception('Impossible de lire le fichier de configuration (problème de syntaxe)');
+		if ($routes) {
+			$route = array();
+			foreach($routes as $key => $value) {
+				$route[$key] = $value;
 			}
 
-			$routes = array();
-			foreach($file as $key => $value) {
-				$routes[$key] = $value;
-			}
-
-			return $routes;
-		}
-		else {
-			throw new \Exception('Le fichier de configuration est inexistant !');
+			return $route;
 		}
 		
 		return false;
@@ -223,11 +215,10 @@ class Router extends Request
     private function stockRequest(&$request)
     {
 		$this->setMethod($request['method']);
+		$this->setTemplate($request['template']);
         $this->setController($request['controller']);
         $this->setAction($request['action']);
 		$this->setQuery($_GET);
 		$this->setPost($_POST);
-		
-		$this->template = $request['setTemplate'];
     }
 }

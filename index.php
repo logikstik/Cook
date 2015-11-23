@@ -5,6 +5,9 @@
  * @copyright Copyright (c) 2015, Cook
  */
 
+// Enclenche la temporisation de sortie
+ob_start();
+
 // Démarrage de la session
 session_start();
 
@@ -22,3 +25,7 @@ new \Cook\Loader();
 // Lancement de l'application
 $app = new \Cook\Application();
 $app->run();
+
+// Envoie les données du tampon de sortie et 
+// éteint la temporisation de sortie
+ob_end_flush();

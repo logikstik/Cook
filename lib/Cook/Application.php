@@ -9,8 +9,7 @@
 
 namespace Cook;
 
-use Cook\View as View;
-use Cook\Config as Config;
+use Cook\Locale as Locale;
 use Cook\Router as Router;
 use Cook\Registry as Registry;
 use Cook\Exception as Exception;
@@ -23,42 +22,35 @@ use Cook\Exception as Exception;
  * @author Guillaume Bouyer <framework_cook[@]icloud.com>
  */
 class Application
-{	
-	/**
-	 * Request
-	 * @var Request
-	 */
-	private static $request;
-	
-	/**
-	 * View
-	 * @var View
-	 */
-	private static $view;
-	
-	/**
-	 * Registry
-	 * @var Registry
-	 */
-	private static $registry;
-	
+{
 	/**
 	 * Chargement des classes nécessaire à l'application
 	 *
 	 * @return void
 	 */
 	private function dispatch()
-	{
-		// Config
+	{		
+		// Path
 		$path = $_SERVER['DOCUMENT_ROOT'] . DIRECTORY_SEPARATOR .'config'. DIRECTORY_SEPARATOR;
-		$config = new Config();
-		$config->setConfig($path .'config.json');
+		
+		// Registry
+		Registry::setConfig($path .'globals.json');
+		Registry::setConfig($path .'routes.json');
+		Registry::setConfig($path .'db.json');
+		Registry::setConfig($path .'env.json');
+		Registry::setConfig($path .'locales.json');
+		
+		// Locale
+		$lang = Registry::get('locales');
+		$language = (!isset($_SESSION['COOK_LANGUAGE'])) ? $lang->defaultLocale : $_SESSION['COOK_LANGUAGE'];
+		$locale = Locale::instance();
+		$locale->setLanguage($language);
+		$locale->loadDomain('messages', 'app/locales', true);
 		
 		// Router
-		$route = strtolower($_SERVER['REQUEST_URI']);
 		$router = Router::instance();
-		$router->setRoute($route);
-		$router->addRule($path .'routes.json');
+		$router->setRoute(strtolower($_SERVER['REQUEST_URI']));
+		$router->addRules(Registry::get('routes'));
 		$router->dispatchRouter();
 	}
 	

@@ -9,7 +9,7 @@
 
 namespace Cook;
 
-use Cook\Registry as Registry;
+use Cook\Locale as Locale;
 use Cook\Exception as Exception;
 
 /**
@@ -29,35 +29,28 @@ class View
 	private static $instance;
 	 
 	/**
-	 * Registry
-	 * @var Registry
-	 */
-	private static $registry;
-	 
-	/**
 	 * Layout
 	 * @var string
 	 */
-	private static $layout;
+	private $layout;
 
 	/**
 	 * Template
 	 * @var string
 	 */
-	private static $template;
-
-	/**
-	 * Content
-	 * @var string
-	 */
-	private static $content;
+	private $template;
 
 	/**
  	 * Singleton
 	 * @var array
      */
-	private static $variables = array();
-	 
+	private $variables = array();
+	
+	/**
+	 * Constructeur
+	 */
+	public function __construct() {}
+	
 	/**
 	 * Get the singleton instance
 	 *
@@ -72,25 +65,15 @@ class View
 		return self::$instance;
 	}
 	 
- 	/**
-	 * Instancie le Registry
-	 *
-	 * @param   Cook\Registry    $registry   Registry
-	 */
-	public static function setRegistry(Registry $registry)
-	{
-		return self::$registry = $registry;
-	}
-	 
     /**
      * Setter - Variable template
 	 *
      * @param   string  $name   Clé de la variable
      * @param   string  $value  Valeur de la variable
      */
-    public function __set($name, $value)
+	public function __set($name, $value)
 	{
-		self::$variables[$name] = $value;
+		$this->variables[$name] = $value;
 	}
 	 
     /**
@@ -99,31 +82,14 @@ class View
      * @param   string  $name   Clé de la variable
      * @return  mixed   Valeur de la clé
      */
-    public function __get($name)
+	public function __get($name)
 	{
-    	return self::$variables[$name];
-    }
+		if (!array_key_exists($name, $this->variables)) {
+			return null;
+		}
 	 
-	/**
-     * Vérifie si la variable existe
-	 *
-     * @param   string  $name   Clé de la variable
-     * @return  bool
-     */
-    public function __isset($name)
-	{
-		return isset(self::$variables[$name]);
-    }
-	 
-    /**
-     * Supprime la variable
-	 *
-     * @param   string  $name   Clé de la variable
-     */
-    public function __unset($name)
-	{
-		unset(self::$variables[$name]);
-    }
+		return $this->variables[$name];
+	}
 
 	/**
 	 * Enregistre un layout pour un controller ou une action
@@ -153,11 +119,10 @@ class View
 	public function getTemplate()
 	{
 		if ($this->fileExists($this->template)) {
-			extract(self::$variables);	
-	        ob_start();
-	        include_once $this->template;
-			self::$variables['content'] = ob_get_contents();
-			ob_clean();
+			ob_start();
+			include_once $this->template;
+			$this->content = ob_get_contents();
+			ob_end_clean();
 	    }
 		else {
 			echo '<pre>';
@@ -173,10 +138,11 @@ class View
 	 */
 	public function show()
 	{
-		extract(self::$variables);
 		if ($this->fileExists($this->layout)) {
+			extract($this->variables);
 			$this->getTemplate();
 			include_once $this->layout;
+			flush();
 		}
 		else {
 			echo '<pre>';
@@ -184,19 +150,12 @@ class View
 			echo '</pre>';
 		}
 	}
-	 
-	/**
-	 * Sort le template comme une chaîne
-	 *
-	 * @return  string  Contenu de la vue
-	 * @see Cook\View::show()
-	 */
+
 	public function __toString()
 	{
-		$this->showTemplate();
 		$this->show();
 		$contents = ob_get_contents();
-		ob_clean();
+		ob_end_clean();
 		return $contents;
 	}
 
@@ -219,5 +178,16 @@ class View
 		}
 		
 		return $isFound;
+	}
+	
+	/**
+	* Retourne la traduction de l'originale
+	*
+	* @param string	$original	Texte à traduire
+	* @return string
+	*/
+	public function _($original)
+	{
+		return Locale::gettext($original);
 	}
 }

@@ -43,6 +43,12 @@ class Request
 	private $method = 'GET';
 
 	/**
+	 * Template
+	 * @var string
+	 */	
+	private $template;
+
+	/**
 	 * Paramètres
 	 * @var array
 	 */	
@@ -141,6 +147,26 @@ class Request
 	}
 
 	/**
+	 * Stock le template en cours
+	 *
+	 * @return string
+	 */
+	public function setTemplate($template)
+	{
+		$this->template = $template;
+	}
+
+	/**
+	 * Retourne le template en cours
+	 *
+	 * @return string
+	 */	
+	public function getTemplate()
+	{
+		return $this->template;
+	}
+
+	/**
 	 * Stock les paramètres en cours
 	 *
 	 * @return array
@@ -221,14 +247,15 @@ class Request
 	}
 	
 	/**
-	 * Renvoi le type du HttpRequest
+	 * Retourne true si la requête est Ajax
 	 *
-	 * @return bool|string
+	 * @return bool
 	 */	
-	public static function getHttpRequest()
+	public static function getAjax()
 	{
-		if (array_key_exists('HTTP_X_REQUESTED_WITH', $_SERVER)) {
-			return $_SERVER['HTTP_X_REQUESTED_WITH'];
+		if (array_key_exists('HTTP_X_REQUESTED_WITH', $_SERVER) && 
+			strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest') {
+			return true;
 		}
 		
 		return false;

@@ -15,9 +15,9 @@ namespace Helpers;
  */
 class testHelper
 {
-	static public function quisuisje($name)
+	static public function johndoe()
 	{		
-		return $name;
+		return 'John Doe ?';
 	}
 }
 

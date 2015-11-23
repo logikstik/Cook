@@ -29,12 +29,6 @@ class Db
 	private static $instance;
 	
 	/**
-	 * Singleton
-	 * @var Db\null
-	 */
-	private static $db;
-	
-	/**
 	 * Registry
 	 * @var Registry
 	 */
@@ -51,30 +45,16 @@ class Db
 	/**
 	 * Get the singleton instance
 	 *
-	 * @return Db
+	 * @return PDO
 	 */
 	public static function instance()
 	{
 		if (self::$instance == null) {
-			self::$instance = new self;
-		}
-		 
-		return self::$instance;
-	}
-
-	/**
-	 * Get the singleton instance
-	 *
-	 * @return PDO
-	 */
-	public static function init()
-	{
-		if (self::$db == null) {
 			try {
-				self::$db = new \PDO(
-					'mysql:host='. self::$registry->get('db')->host .';dbname='. self::$registry->get('db')->dbname, 
-					self::$registry->get('db')->user, 
-					self::$registry->get('db')->pass, 
+				self::$instance = new \PDO(
+					'mysql:host='. self::$registry->db->host .';dbname='. self::$registry->db->dbname, 
+					self::$registry->db->user, 
+					self::$registry->db->pass, 
 					array(
 						PDO::ATTR_PERSISTENT => true, 
 						PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES 'UTF8'",
@@ -88,7 +68,7 @@ class Db
 			}
 		}
 		
-		return self::$db;
+		return self::$instance;
 	}
 	
  	/**

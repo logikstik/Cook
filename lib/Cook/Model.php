@@ -35,7 +35,6 @@ class Model
 	public function __construct()
 	{
 		$this->db = Db::instance();
-		$this->db->init();
 		$this->db->beginTransaction();
 	}
 	

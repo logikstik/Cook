@@ -4,9 +4,9 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title><?php echo $this->view->meta['title']; ?></title>
-	<meta name="description" content="<?php echo $this->view->meta['description']; ?>">
-	<meta name="keywords" content="<?php echo $this->view->meta['keywords']; ?>">
+    <title><?php echo $this->meta['title']; ?></title>
+	<meta name="description" content="<?php echo $this->meta['description']; ?>">
+	<meta name="keywords" content="<?php echo $this->meta['keywords']; ?>">
 
 	<!-- Bootstrap 3 CSS -->
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
@@ -15,21 +15,21 @@
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
 
     <!-- Normalize CSS -->
-    <link rel="stylesheet" href="<?php echo $this->view->base_url; ?>/skins/default/css/normalize.css">
+    <link rel="stylesheet" href="<?php echo $this->baseUrl; ?>/skins/default/css/normalize.css">
 
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
     <!--[if lt IE 9]>
         <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
         <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
-		<script src="<?php echo $this->view->base_url; ?>/skin/default/js/ie/excanvas.js"></script>
+		<script src="<?php echo $this->baseUrl; ?>/skin/default/js/ie/excanvas.js"></script>
     <![endif]-->
 </head>
 <body>
 	<!-- .content -->
 	<div class="container" style="margin: 50px auto;width: 80%;">
-		<h1>Vue avec un layout différent !</h1>
-		<?php echo $this->view->content; ?>
+		<h1><?php echo $this->_('Vue avec un layout différent !'); ?></h1>
+		<h2><small><?php echo $this->content; ?></small></h2>
 	</div>
 	<!-- /.content -->
 	<!-- .javascript -->
