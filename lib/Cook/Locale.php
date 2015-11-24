@@ -9,6 +9,7 @@
 
 namespace Cook;
 
+use Cook\Registry as Registry;
 use Cook\Exception as Exception;
 
 /**
@@ -64,9 +65,8 @@ class Locale
 		
 		setlocale(LC_ALL, $language);
 		putenv('LC_ALL='. $language);
-		$_SESSION['COOK_LANGUAGE'] = $language;
 		
-		return $this;
+		$this->saveLanguage($language);
 	}
 	
     /**
@@ -86,6 +86,17 @@ class Locale
             textdomain($domain);
         }
     }
+	
+	/**
+	 * Sauvegarde le choix de la langue dans un cookie pendant 30 jours
+	 *
+	 * @param string	$language	Langue utilisée
+	 * @return void
+	 */
+	private function saveLanguage($language)
+	{
+		setcookie('COOK_LANGUAGE', $language, time()+60*60*24*30, '/');
+	}
 	
 	/**
 	 * Retourne la traduction du texte original

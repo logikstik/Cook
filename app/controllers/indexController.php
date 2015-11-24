@@ -63,9 +63,11 @@ class indexController extends BaseController
 				$lang = 'fr_FR';
 				break;
 		}
-				
+		
 		// Chargement de la nouvelle langue
-		$this->locale->setLanguage($lang);
+		if ($lang !== $_COOKIE['COOK_LANGUAGE']) {
+			$this->locale->setLanguage($lang);
+		}
 		
 		// Redirection
 		$this->request->redirect('/');

@@ -73,8 +73,6 @@ abstract class BaseController
 		$this->view->setLayout($env->defaultLayout);
 		
 		// Variables par défault pour la vue (fichier config "globals.json")
-		// ---
-		// Vérifier si les éléments sont bien le fichier de config ??
 		$this->view->baseUrl = $env->baseUrl;
 		$this->view->meta = array(
 			'title' => $meta->title,

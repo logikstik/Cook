@@ -39,7 +39,7 @@ class Application
 		
 		// Locale
 		$lang = Registry::get('locales');
-		$language = (!isset($_SESSION['COOK_LANGUAGE'])) ? $lang->defaultLocale : $_SESSION['COOK_LANGUAGE'];
+		$language = (!isset($_COOKIE['COOK_LANGUAGE'])) ? $lang->defaultLocale : $_COOKIE['COOK_LANGUAGE'];
 		$locale = Locale::instance();
 		$locale->setLanguage($language);
 		$locale->loadDomain('messages', 'app/locales', true);
